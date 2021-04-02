@@ -2,6 +2,8 @@ package com.twash.userservice.controller;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.twash.userservice.exception.*;
 import com.twash.userservice.model.Users;
 import com.twash.userservice.service.SequenceGeneratorService;
 import com.twash.userservice.service.UsersDaoImpl;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * This is a Rest Controller class for UserController
@@ -29,7 +32,9 @@ public class UserController {
 	@Autowired
 	private SequenceGeneratorService sequenceGeneratorService;
 	
+	
 	//To Insert Users Into DataBase
+	@Operation(summary = "Adds a new user")
 	@PostMapping("/users")
 	public ResponseEntity<String> createUsers( @Validated @RequestBody Users user) {
 		try {
@@ -45,11 +50,12 @@ public class UserController {
 	
 	
 	  //To Get All Users Data From DataBase
-	  
+	@Operation(summary = "View a list of all users")
 	  @GetMapping("/users") public List<Users> getAllUsers() { 
 		  return usersdao.getAllUsers(); }
 	  
 	  //To Get Specific User Data By ID From DataBase
+	@Operation(summary = "View a user details by Id")
 	  @GetMapping("/users/find/{id}") public ResponseEntity<Users> findUserById(@PathVariable(value="id")long id)throws ResourceNotFoundException{
 		  Users users=usersdao.getUserbyId(id).orElseThrow(()->new
 	      ResourceNotFoundException("User Not Found For This ID::"+id)); return
@@ -57,7 +63,7 @@ public class UserController {
 	 
 	
 	  //To Get Users Data By Role From DataBase
-	  
+	@Operation(summary ="View a list of users by Role")
 	  @GetMapping("/users/get/{role}") 
 	  public ResponseEntity<List<Users>> findUserByRole(@PathVariable(value="role")String role)throws ResourceNotFoundException{ 
 		  List<Users> users=usersdao.getUsersbyRole(role).orElseThrow(()->new
@@ -65,34 +71,43 @@ public class UserController {
 	      ResponseEntity.ok(users); }
 	 
 	  //To Update User By Id
+	@Operation(summary = "Update the user by Id")
 	  @PutMapping("/users/update/{id}")
 	  public ResponseEntity<String> updateUserById(@PathVariable(value="id")long id, @Validated @RequestBody Users user){
-		  try {
-			  Users users=usersdao.updateUserbyId(id, user);
-			  return ResponseEntity.ok("User Updated Sucessfully For Id"+users.getId());
-
-		  }
-		  catch (Exception e) {
-		  
-		  return new ResponseEntity<>("User Not Found For ID:"+id, HttpStatus.INTERNAL_SERVER_ERROR);
-		  }
+		 try {
+			
+				 Users users=usersdao.updateUserbyId(id, user);
+				  return ResponseEntity.ok("User Updated Sucessfully For Id"+users.getId());
+				 
+		 }
+		 catch(Exception e) {
+			return e.getMessage().contains("duplicate") ? new ResponseEntity<>("Email Or Mobile Number already Exists",HttpStatus.INTERNAL_SERVER_ERROR): new ResponseEntity<>("User Not Found for ID: "+id,HttpStatus.INTERNAL_SERVER_ERROR);
+		 } 
 		  
 	  }
+ 
 	  
 	  //To Delete Specific User By Id
+	@Operation(summary = "Delete a user by Id")
 	  @DeleteMapping("/users/delete/{id}")
 	  
 	  public ResponseEntity<String> deleteUserById(@PathVariable(value="id")long id) {
+		  Optional<Users> use=usersdao.getUserbyId(id);
 		  try {
-		  usersdao.deleteUserbyId(id);
-		  return ResponseEntity.ok("User Deleted Sucessfully For Id"+id);
+			  if(use.isEmpty()) {
+				  return new ResponseEntity<>("User Not Found For ID:"+id, HttpStatus.NOT_FOUND);
+		 }
+			  usersdao.deleteUserbyId(id);
+			  return ResponseEntity.ok("User Deleted Sucessfully For Id"+id);
+			 
 	  }
 		  catch (Exception e) {
-			  return new ResponseEntity<>("User Not Found For ID:"+id, HttpStatus.NOT_FOUND);
+			  return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		  }
 	  }
 	  
 	  //To Get The Specific User Details By Email
+	@Operation(summary ="View user details by Email")
 	 @GetMapping("/users/{email}")
 	 public  ResponseEntity<Users> findUserByMail(@PathVariable(value= "email")String email) throws ResourceNotFoundException{
 		 Users users=usersdao.getUserbyEmail(email).orElseThrow(()->new ResourceNotFoundException("User Not Found For This Email ::"+email));
