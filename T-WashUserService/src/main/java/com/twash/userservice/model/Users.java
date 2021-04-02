@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Document(collection="Users")
 
 /**
@@ -17,14 +19,21 @@ public class Users {
 	@Transient //  By Default All Private Fields Are Mapped To The Document,  This Annotation Excludes This Field Where It Is Applied From Being Stored In The Database
     public static final String SEQUENCE_NAME = "users_sequence";
 	@Id // Generates A Unique Id In MongoDB
+	@ApiModelProperty(notes = "The database generated user ID")
 	private long id;
+	@ApiModelProperty(notes = "The name of the user")
 	private String name;
+	@ApiModelProperty(notes = "The gender of the user")
 	private String gender;
+	@ApiModelProperty(notes = "The password of the user")
 	private String password;
     @Indexed(unique=true) //Enable Indexing To Insert Unique Fields
+    @ApiModelProperty(notes = "The unique email of the user")
 	private String email;
     @Indexed(unique=true) // Enable Indexing To Insert Unique Fields
+    @ApiModelProperty(notes = "The unique  mobilenumber of the user")
 	private long mobilenumber;
+    @ApiModelProperty(notes = "The role of the user")
 	private String role;
 	//All Argument Constructor
 	public Users(long id, String name, String gender, String password, String email, long mobilenumber, String role) {
