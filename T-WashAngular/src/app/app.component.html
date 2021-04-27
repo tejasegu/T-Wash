@@ -1,0 +1,187 @@
+<div >
+
+    <mat-toolbar color="">
+  
+      <a class="logo"  routerLink="/login" mat-button>
+        <img src="../assets/twash (2) (5).png"> 
+      </a>
+      <span>T-Wash</span>
+  
+      <span class="example-spacer"></span>
+  
+      <div fxShow="true" fxHide.lt-md="true">
+  
+        <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+  
+        <a routerLink="/home" mat-button><mat-icon>home</mat-icon></a>
+  
+        <a  routerLink="/book" mat-button>Book a Wash</a>
+  
+        <a *ngIf="(isLoggedIn && !admin) "  routerLink="/orders" mat-button>My Orders</a>
+
+        <a  *ngIf="(admin && isLoggedIn)"  routerLink="/dashboard" mat-button> <mat-icon>dashboard</mat-icon>  AdminDashBoard</a>
+      
+        <a  *ngIf="isLoggedIn" routerLink="/profile" mat-button><mat-icon>account_circle</mat-icon></a>
+        <a  *ngIf="(admin && isLoggedIn)"  mat-button [matMenuTriggerFor]="management"> <mat-icon>manage_search</mat-icon>Management</a>
+        <mat-menu #management="matMenu">
+          <button mat-menu-item routerLink="/usersmanagement">Users Management</button>
+          <button mat-menu-item routerLink="/bookingmanagement">Bookings Management</button>
+          <button mat-menu-item routerLink="/reviewsmanagement">Reviews Management</button>
+
+        </mat-menu>
+        <a *ngIf="(isLoggedIn && !admin)"   mat-button  [matMenuTriggerFor]="menu"><mat-icon matBadge={{count}} matBadgeColor="warn" >notifications_paused</mat-icon></a>
+        <mat-menu #menu="matMenu">
+          <div class="col-md-6">
+            <table class="table ">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let notify of notification |reverse">
+                    <td>{{notify.createdDateTime}}</td>
+                    <td>{{notify.description}}</td>
+                </tr>
+            </tbody>
+              </table>
+          
+            </div>
+        </mat-menu>
+
+        <mat-slide-toggle *ngIf="(washer && isLoggedIn)" [(ngModel)]="isChecked" (change)="handleChange($event)">Status</mat-slide-toggle>
+
+  
+        <a routerLink="/login" mat-button *ngIf="!isLoggedIn">Login</a>
+        
+        <a routerLink="/signup" mat-button *ngIf="!isLoggedIn">Signup</a>
+
+        <a routerLink="login" mat-button *ngIf="isLoggedIn" (click)="logout()"><mat-icon>logout </mat-icon> </a>
+  
+      </div>
+  
+      <div fxShow="true" fxHide.gt-sm="true">
+  
+        <div class="dehaze" (click)="sidenav.toggle()"><mat-icon>dehaze</mat-icon></div>
+  
+      </div>
+  
+    </mat-toolbar>
+  
+    <mat-sidenav-container fxFlexFill class="example-container" >
+  
+      <mat-sidenav #sidenav fxLayout="column" mode="side">
+  
+        <div fxLayout="column">
+  
+          <a routerLink="/home" mat-button><mat-icon>home</mat-icon></a>
+  
+          <a  routerLink="/book" mat-button>Book a Wash</a>
+    
+          <a *ngIf="(isLoggedIn && !admin) "  routerLink="/orders" mat-button>My Orders</a>
+  
+          <a  *ngIf="(admin && isLoggedIn)"  routerLink="/dashboard" mat-button> <mat-icon>dashboard</mat-icon>  AdminDashBoard</a>
+        
+          <a  *ngIf="isLoggedIn" routerLink="/profile" mat-button><mat-icon>account_circle</mat-icon></a>
+          <mat-slide-toggle *ngIf="(washer && isLoggedIn)" [(ngModel)]="isChecked" (change)="handleChange($event)">Status</mat-slide-toggle>
+
+          <a  *ngIf="(admin && isLoggedIn)"  mat-button [matMenuTriggerFor]="management"> <mat-icon>manage_search</mat-icon>Management</a>
+          <mat-menu #management="matMenu">
+            <button mat-menu-item routerLink="/usersmanagement">Users Management</button>
+            <button mat-menu-item routerLink="/bookingmanagement">Bookings Management</button>
+            <button mat-menu-item routerLink="/reviewsmanagement">Reviews Management</button>
+          </mat-menu>
+          <a *ngIf="(isLoggedIn && !admin)"   mat-button  [matMenuTriggerFor]="menu"><mat-icon matBadge={{count}} matBadgeColor="warn" >notifications_paused</mat-icon></a>
+         
+          <mat-menu #menu="matMenu">
+            <div class="col-md-6">
+              <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let notify of notification">
+                      <td>{{notify.createdDateTime}}</td>
+                      <td>{{notify.description}}</td>
+                  </tr>
+              </tbody>
+                </table>
+            
+              </div>
+          </mat-menu>
+    
+          <a routerLink="/login" mat-button *ngIf="!isLoggedIn">Login</a>
+          
+          <a routerLink="/signup" mat-button *ngIf="!isLoggedIn">Signup</a>
+  
+          <a routerLink="login" mat-button *ngIf="isLoggedIn" (click)="logout()"><mat-icon>logout </mat-icon> </a>
+    
+        </div>
+    
+  
+      </mat-sidenav>
+  
+      <mat-sidenav-content fxFlexFill>  <router-outlet></router-outlet></mat-sidenav-content>
+  
+    </mat-sidenav-container>
+   
+    <footer class="footer-distributed">
+
+			<div class="footer-left">
+
+				<h3><img src="../assets/twash (2) (5).png" alt=""><span>T-Wash</span></h3>
+
+				<p class="footer-links">
+					<a routerLink="/home" class="link-1">Home</a>
+					
+					<a routerLink="/book">Book A Wash</a>
+				
+					<a routerLink="/login">Login</a>
+				
+				</p>
+
+				<p class="footer-company-name">T-Wash © 2021</p>
+			</div>
+
+			<div class="footer-center">
+
+				<div>
+					<i class="fa fa-map-marker"></i>
+					<p><span>33-1-7/1 , Near Maruthi Theatre</span> Palakollu, Andhra Pradesh</p>
+				</div>
+
+				<div>
+					<i class="fa fa-phone"></i>
+					<p>+91-8247280062</p>
+				</div>
+
+				<div>
+					<i class="fa fa-envelope"></i>
+					<p><a href="mailto:twash@twash.com">twash@twash.com</a></p>
+				</div>
+
+			</div>
+
+			<div class="footer-right">
+
+				<p class="footer-company-about">
+					<span>About the company</span>
+          T-Wash is a mobile car care service based in Palakollu, Andhra Pradesh. Our mission is to make taking care of your car easier than ever. Currently, we provide convenient car washing services by sending a professional technician to come to you and wash your car right where its parked at your office, apartment, or home. Originally started by a small team of friends  in 2021, T-Wash now serves many of happy customers across Palakollu and Bhimavaram, Andhra Pradesh.
+				</p>
+
+				<div class="footer-icons">
+
+					<a href="#"><i class="fa fa-facebook"></i></a>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+					<a href="#"><i class="fa fa-linkedin"></i></a>
+					<a href="#"><i class="fa fa-github"></i></a>
+
+				</div>
+
+			</div>
+
+		</footer>

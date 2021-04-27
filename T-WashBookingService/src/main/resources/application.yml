@@ -1,0 +1,42 @@
+server:
+  port: 1112
+  
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/TWashBookingsDB
+      
+      auto-index-creation: true
+      
+  application:
+    name: T-WashBookingService
+    
+  jackson:
+      serialization:
+       write-dates-as-timestamps: false
+      
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost    
+
+paytm.payment:
+  sandbox:
+    merchantId: EMIklx84169388982012
+    merchantKey: EHx8BZuazlbM1yRR
+    channelId: WEB
+    website: WEBSTAGING
+    industryTypeId: Retail
+    paytmUrl:  https://securegw-stage.paytm.in/order/process
+    callbackUrl: http://localhost:1112/bookings/response
+    details:
+      MID: ${paytm.payment.sandbox.merchantid}
+      CHANNEL_ID: ${paytm.payment.sandbox.channelid}
+      INDUSTRY_TYPE_ID: ${paytm.payment.sandbox.industrytypeid}
+      WEBSITE: ${paytm.payment.sandbox.website}
+      CALLBACK_URL: ${paytm.payment.sandbox.callbackUrl}

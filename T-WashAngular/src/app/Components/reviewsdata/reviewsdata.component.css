@@ -1,0 +1,10 @@
+.dialog{
+    height: 250px;
+}
+button{
+    background-color: blue;
+}
+button:hover{
+    background-color: white;
+    
+}

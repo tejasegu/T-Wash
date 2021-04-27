@@ -13,5 +13,6 @@ public interface UsersDaoInterface {
 	public Users updateUserbyId(long Id, Users user);
 	public long deleteUserbyId(long Id);
 	public Optional<Users> getUserbyEmail(String Email);
-	
+	public List<Users> getWashersbyArea(String area);
+	public void setStatus(long id, String status);
 }

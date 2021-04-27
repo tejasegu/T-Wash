@@ -1,13 +1,15 @@
 package com.twash.userservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.dao.DuplicateKeyException;
+
+
 import com.twash.userservice.model.Users;
 import com.twash.userservice.repository.UsersRepository;
 
@@ -18,9 +20,16 @@ public class UsersRepositoryTest {
 	UsersRepository repotest;
 	
 	long id = 1;
-	String Email = "lovel";
-    String Name="teja";
-    Users user = new Users(id, Name,"M","teja",Email, 9247,"Admin");
+	 String name="teja";
+	 String gender="M";
+	 String password="teja";
+     String email = "lovel";
+     long   number=9247;
+     String town="pkl";
+     String area="policestation";
+     String role="Admin";
+     String status="Active";
+     Users user = new Users(id, name,gender,password,email,number,town,area,role,status);
     
 	
 	@Test
@@ -28,7 +37,7 @@ public class UsersRepositoryTest {
 		 // Given
          
 		repotest.save(user);
-        Optional<Users> optionaluser=repotest.findByEmail(Email);
+        Optional<Users> optionaluser=repotest.findByEmail(email);
         
         assertThat(optionaluser).isPresent();
 
@@ -46,9 +55,9 @@ public class UsersRepositoryTest {
 	@Test
 	void itShouldMatchUserDataByEmail() {
 		repotest.save(user);
-		Optional<Users> optionaluser=repotest.findByEmail(Email);
+		Optional<Users> optionaluser=repotest.findByEmail(email);
 		
-        assertThat(optionaluser.get().getName().equals(Name));
+        assertThat(optionaluser.get().getName().equals(name));
 		
 	}
 	@Test
@@ -57,16 +66,26 @@ public class UsersRepositoryTest {
 		Optional<List<Users>> optionaluser=repotest.findByRole("Admin");
 		assertThat(optionaluser).isPresent();
 	}
+	
 	@Test
-	void itShouldNotSaveWhenEmailIsPresent() {
+	void itShouldnotselectUserIfRoleNotPresent() {
+		 // Given
+         
 		repotest.save(user);
-		String Email2="lovel";
-		String Name2="Teja";
+        List<Users> optionaluser=repotest.findByRole("user").get();
+        
+        assertThat(optionaluser).isEmpty();
+
+	}
+	
+	@Test
+	void itShouldMatchUserDataByRole() {
+		repotest.save(user);
+		List<Users> optionaluser=repotest.findByRole("Admin").get();
 		
-		Users user1 = new Users(2, Name2,"M","teja",Email2, 92474,"Admin");
-		assertThatThrownBy(() -> repotest.save(user1))
-        .isInstanceOf(DuplicateKeyException.class);
-}
+        assertThat(optionaluser.stream().anyMatch(o->o.getName().equals(name)));
+		
+	}
 
 	}
 

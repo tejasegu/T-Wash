@@ -1,0 +1,46 @@
+.button{
+    padding: 20px;
+    text-align: center;
+    
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+.buttons{
+    
+    padding: 10px;
+    text-align: center;
+    
+}
+
+
+  .full-width {
+    width: 100%;
+    
+  }
+  
+  .booking-card {
+    min-width: 120px;
+    margin: 20px 20px 20px 20px;
+  }
+  
+  .mat-radio-button {
+    display: block;
+    margin: 5px 0;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .col {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .col:last-child {
+    margin-right: 0;
+  }
+  .mat-form-field{
+    font-size: 15px;
+  }

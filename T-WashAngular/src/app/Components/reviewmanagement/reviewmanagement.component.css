@@ -1,0 +1,21 @@
+table {
+    width: 100%;
+   
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width:fit-content;
+  }
+  mat-card{
+      padding: 10px;
+  }
+  
+  .user-card {
+    min-width: 120px;
+    margin: 20px 20px 20px 20px;
+  }

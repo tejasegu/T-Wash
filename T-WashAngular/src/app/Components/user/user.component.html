@@ -1,0 +1,330 @@
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+  <mat-tab label="All Users ">
+    <mat-card class="user-card">
+      <mat-card-header>
+        <mat-card-title>SEARCH USER</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput placeholder="Enter any text" (keyup)="applyFilter($event)" #input>
+                  <mat-icon matSuffix> search</mat-icon>
+                </mat-form-field>
+              </div>
+        </div>
+      </mat-card-content>
+    </mat-card >
+    <mat-card class="user-card">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort >
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
+    
+       
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+          <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
+        </ng-container>
+    
+      
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let row" > {{row.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobilenumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </th>
+          <td mat-cell *matCellDef="let row" > {{row.mobilenumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Area </th>
+          <td mat-cell *matCellDef="let row"> {{row.area}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+          <td mat-cell *matCellDef="let row"> {{row.role}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status </th>
+          <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button color="warn" (click)="Delete(row.id)">
+                <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+        
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Edit Users">
+    <mat-card class="user-card">
+      <mat-card-header>
+        <mat-card-title>SEARCH USER BY ID</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput placeholder="Enter User Id" [(ngModel)]="search" #input>
+                  <mat-icon matSuffix> search</mat-icon>
+                </mat-form-field>
+              </div>
+        </div>
+        <mat-card-actions align="end" >
+          <button  mat-raised-button (click)="searchuser()" [disabled]="!search">Search</button>
+        </mat-card-actions>
+      </mat-card-content>
+     
+    </mat-card >
+    <mat-card class="user-card">
+      <mat-card-header>
+        <mat-card-title>Update User</mat-card-title>
+      </mat-card-header>
+      <form  #f="ngForm"  name="form" (ngSubmit)="f.form.valid && onSubmit2() " >
+        <mat-card-content>
+          
+          <div class="row">
+              <div class="col">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Enter name" name="name"  [(ngModel)]="form.name" #name="ngModel" required minlength="3" maxlength="15" [disabled]="!editable">
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Gender</mat-label>
+                    <input matInput placeholder="Gender" name="gender"  [(ngModel)]="form.gender" #gender="ngModel" required disabled>
+  
+                    <mat-icon matSuffix>people</mat-icon>
+                  </mat-form-field>
+                </div>
+          </div>
+  
+  
+          <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Number</mat-label>
+                  <input matInput placeholder="Enter mobilenumber" name="mobilenumber"  [(ngModel)]="form.mobilenumber" #mobilenumber="ngModel" required minlength="10"  maxlength="10" [disabled]="!editable">
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" placeholder="email"  name="email"  [(ngModel)]="form.email" #email="ngModel" required [disabled]="!editable">
+  
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+              </div>
+        </div>
+  
+        <div class="row">
+          <div class="col">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Town</mat-label>
+                <input matInput placeholder="Town" name="town"  [(ngModel)]="form.town" #town="ngModel" required  disabled>
+                <mat-icon matSuffix>location_city</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Area</mat-label>
+                <input matInput placeholder="Area"  name="area"  [(ngModel)]="form.area" #area="ngModel" required disabled>
+  
+                <mat-icon matSuffix>fmd_good</mat-icon>
+              </mat-form-field>
+            </div>
+      </div>
+  
+  
+  
+    <div class="row">
+      <div class="col">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Role</mat-label>
+            <input matInput placeholder="Role" name="role"  [(ngModel)]="form.role" #role="ngModel" required  disabled>
+            <mat-icon matSuffix>badge</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <input matInput placeholder="Status"  name="status"  [(ngModel)]="form.status" #status="ngModel" required disabled>
+  
+            <mat-icon matSuffix>emoji_objects</mat-icon>
+          </mat-form-field>
+        </div>
+        </div>
+    
+        
+        </mat-card-content>
+        
+        <mat-card-actions align="end" padding="5px">
+          <button  mat-raised-button >Update</button>
+          <button  mat-raised-button (click)="cancelUpdate()" color="warn" ><mat-icon>cancel</mat-icon></button>
+        </mat-card-actions>
+        
+      
+    </form>
+    
+    </mat-card>
+    
+  </mat-tab>
+  <mat-tab label="Add Users">
+    <mat-card class="user-card">
+      <mat-card-header>
+        <mat-card-title>Add User</mat-card-title>
+      </mat-card-header>
+      <form  #addf="ngForm"  (ngSubmit)="addf.form.valid && onSubmit() " >
+        <mat-card-content>
+          
+          <div class="row">
+              <div class="col">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Enter name" name="name"  [(ngModel)]="add.name" #name="ngModel" required minlength="3" maxlength="15">
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Gender</mat-label>
+                    <mat-select  
+                    [(ngModel)]="add.gender"
+                    name="gender"
+                    required
+                    #gender="ngModel"
+                    >
+              <mat-option *ngFor="let gen of genders" [value]="gen">{{gen}}</mat-option>
+            </mat-select>
+  
+                    <mat-icon matSuffix>people</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" placeholder="Enter Password" name="password"  [(ngModel)]="add.password" #password="ngModel" required minlength="6" maxlength="15">
+                    <mat-icon matSuffix>lock</mat-icon>
+                   
+                  </mat-form-field>
+                </div>
+          </div>
+  
+          <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Number</mat-label>
+                  <input matInput placeholder="Enter mobilenumber" name="mobilenumber"  [(ngModel)]="add.mobilenumber" #mobilenumber="ngModel" required minlength="10"  maxlength="12" >
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" placeholder="email"  name="email"  [(ngModel)]="add.email" #email="ngModel" required >
+  
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+              </div>
+        </div>
+  
+        <div class="row">
+          <div class="col">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Town</mat-label>
+                <input matInput placeholder="Town" name="town"  [(ngModel)]="add.town" #town="ngModel" required  >
+                <mat-icon matSuffix>location_city</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Area</mat-label>
+                <mat-select  
+                [(ngModel)]="add.area"
+                name="area"
+                required
+                #area="ngModel"
+                >
+          <mat-option *ngFor="let are of areas" [value]="are">{{are}}</mat-option>
+        </mat-select>
+                <mat-icon matSuffix>fmd_good</mat-icon>
+              </mat-form-field>
+            </div>
+      </div>
+  
+  
+  
+    <div class="row">
+      <div class="col">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Role</mat-label>
+
+            <mat-select  
+                [(ngModel)]="add.role"
+                name="role"
+                required
+                #role="ngModel"
+                >
+          <mat-option *ngFor="let rol of roles" [value]="rol">{{rol}}</mat-option>
+        </mat-select>
+
+            <mat-icon matSuffix>badge</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <input matInput placeholder="Status"  name="status"  [(ngModel)]="add.status" #status="ngModel" required disabled/>
+  
+            <mat-icon matSuffix>emoji_objects</mat-icon>
+          </mat-form-field>
+        </div>
+        </div>
+        <mat-card-actions align="end" padding="5px">
+        </mat-card-actions>
+        <button type="submit" mat-raised-button [disabled]="!addf.form.valid" >Add</button>
+
+        </mat-card-content>
+        
+        
+    </form>
+
+    
+    </mat-card>
+    
+  </mat-tab>
+
+</mat-tab-group>
