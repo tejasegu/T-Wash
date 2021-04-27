@@ -1,0 +1,33 @@
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost    
+
+  
+spring:       
+  application:
+    name: T-WashApiGateWay
+server:
+  port: 8079
+
+zuul:
+  #Service will be mapped under the /api URI
+  routes:
+    user-service:
+      path: /twu/**
+      url: T-WASHUSERSERVICE
+    booking-service:
+      path: /twb/**
+      url: T-WASHBOOKINGSERVICE
+    notification-service:
+      path: /twn/**
+      url: T-WASHNOTIFICATIONSERVICE
+external:  
+  server:
+     url:http://localhost:8079/twu
+   

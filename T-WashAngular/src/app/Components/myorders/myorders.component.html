@@ -1,0 +1,176 @@
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+  <mat-tab label="All Orders">
+    <h1>{{message}}</h1>
+     <div  class="flex-grid">
+    <div  class="col" *ngFor="let order of orders | reverse">
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+
+              BookingId: {{order.id}} | &ensp;| ScheduledDate:{{order.scheduleddate}}
+            </mat-panel-title>
+            <mat-panel-description>
+              Name:{{order.username}} |&ensp;| Mobile:{{order.number}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-card class="mat-elevation-z4" >
+            <mat-card-header>
+              <mat-card-title><h4>Washer Name:{{order.washername}} |&ensp;| Washer Number:{{order.washernumber}}</h4>  </mat-card-title>
+            </mat-card-header>
+              <div class="parent" style="overflow-x:auto;">
+                <table >
+                  <thead>
+                     <tr>
+                       <th>Booking Date</th>
+                        <th>Car Name</th>
+                        <th>car Number</th>
+                        <th>Location</th>
+                        <th>Package</th>
+                        <th>Addons</th>
+                        <th>Payment Type</th>
+                        <th>Payment Status</th>
+                        <th>Amount</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td>{{order.bookedon}} </td>
+                        <td>{{ order.carname }}</td>
+                        <td>{{ order.carnumber }}</td>
+                        <td><button (click)="navigate(order.location)"> Location</button></td>
+                        <td>{{ order.packages}}</td>
+                        <td>{{ order.addon }}</td>
+                        <td>{{order.paymenttype}}</td>
+                        <td>{{order.paymentstatus}}</td>
+                        <td>{{order.amount}}</td>
+                     </tr>
+                  </tbody>
+               </table>
+              </div>
+            
+            <div class="container" *ngIf='!(order.orderstatus=="Rejected")'>
+            
+              <span *ngFor="let item of counts;let i = index">
+                <span class="circles" [class.active]="(order.orderstatus == item.status)"><mat-icon>{{item.logo}}</mat-icon></span>
+                <span class="bar" *ngIf="(i != counts.length-1)"></span>
+              </span>
+            
+            </div>   
+            <div class="container" *ngIf='(order.orderstatus=="Rejected")'>
+            
+              <span >
+                <span ><mat-icon color="warn" class="cancel">cancel</mat-icon> </span>
+                <span><h1 >Order Cancelled</h1></span>
+              </span>
+            
+            </div>           
+            <mat-card-actions align="end" >
+              <button mat-button *ngIf="(order.orderstatus=='Booked')&&iswasher" class="btn-green" (click)="Accepted(order.id)" >Accept</button>
+              <button mat-button *ngIf="(order.orderstatus=='Booked') &&iswasher"class="btn-red" (click)="Rejected(order.id)" >Reject</button>
+              <button mat-button  *ngIf="(order.orderstatus=='Accepted') &&iswasher" class="btn" (click)="Start(order.id)">Strat</button>
+              <button mat-button  *ngIf="(order.orderstatus=='In progress')&&iswasher" class="btn-green"(click)="Completed(order.id)">Completed</button>
+              
+              <button mat-button *ngIf="(order.orderstatus=='Completed') && isuser" (click)="openDialog(order.userid,order.washerid,order.username)" class="btn">Add Review</button>
+              <button mat-button  *ngIf="(order.orderstatus=='Completed') && isuser" class="btn" (click)="showImage(order.id)">View Photo</button>
+              <div>
+              <form *ngIf="(order.orderstatus=='Completed')&&iswasher" >      
+                <div>
+                  <input type="file" name="profile" (change)="onFileChanged($event)" />
+                </div>
+                <div>
+                  <button mat-button class="btn" (click)="apload(order.id)">Upload</button>
+                </div>
+              </form>
+            </div>
+            </mat-card-actions>
+            
+          </mat-card>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+
+</mat-tab>
+
+  <mat-tab label="Scheduled Later">
+    <h1>{{schmessage}}</h1>
+    <div  class="flex-grid">
+      <div  class="col" *ngFor="let order of scheduled | reverse">
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+  
+                BookingId: {{order.id}} | &ensp; | ScheduledDate:{{order.scheduleddate}}
+              </mat-panel-title>
+              <mat-panel-description>
+                Name:{{order.username}} |&ensp;| Mobile:{{order.number}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-card class="mat-elevation-z4" >
+              <mat-card-header>
+                <mat-card-title><h4>Washer Name:{{order.washername}} |&ensp;| Washer Number:{{order.washernumber}}</h4>  </mat-card-title>
+              </mat-card-header>
+              
+                <div class="parent" style="overflow-x:auto;">
+                  <table >
+                    <thead>
+                       <tr>
+                          <th>Booking date</th>
+                          <th>Car Name</th>
+                          <th>car Number</th>
+                          <th>Location</th>
+                          <th>Package</th>
+                          <th>Addons</th>
+                          <th>Payment Type</th>
+                          <th>Payment Status</th>
+                          <th>Total Amount</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                          <td>{{order.bookedon}} </td>
+                          <td>{{ order.carname }}</td>
+                          <td>{{ order.carnumber }}</td>
+                          <td>{{ order.location  }}</td>
+                          <td>{{ order.packages}}</td>
+                          <td>{{ order.addon }}</td>
+                          <td>{{order.paymenttype}}</td>
+                          <td>{{order.paymentstatus}}</td>
+                          <td>{{order.amount}}</td>
+                       </tr>
+                    </tbody>
+                 </table>
+                </div>
+              
+              <div class="container">
+              
+                <span *ngFor="let item of counts;let i = index">
+                  <span class="circles" [class.active]="(order.orderstatus == item.status)"><mat-icon>{{item.logo}}</mat-icon></span>
+                  <span class="bar" *ngIf="(i != counts.length-1)"></span>
+                </span>
+              
+              </div>           
+              <mat-card-actions align="end">
+                <button mat-button *ngIf="(order.orderstatus=='Booked')&&iswasher" class="btn-green" (click)="Accepted(order.id)" >Accept</button>
+                <button mat-button *ngIf="(order.orderstatus=='Booked') &&iswasher"class="btn-red" (click)="Rejected(order.id)" >Reject</button>
+                <button mat-button  *ngIf="(order.orderstatus=='Accepted') &&iswasher" class="btn" (click)="Start(order.id)">Strat</button>
+                <button mat-button  *ngIf="(order.orderstatus=='In progress')&&iswasher" class="btn-green"(click)="Completed(order.id)">Completed</button>
+                
+              </mat-card-actions>
+             
+            </mat-card>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    
+  </mat-tab>
+</mat-tab-group>
+   
+
+        
+     
+    
+

@@ -1,0 +1,132 @@
+
+
+.flex-grid {
+    flex-wrap:wrap-reverse;
+  }
+  .col {
+    flex: 1;
+    flex-direction: column;
+    padding:10px
+  }
+  table{
+      width: 100%;
+      
+  }
+
+.parent{
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-bottom: 50px;
+}
+.cancel{
+  font-size: 50px;
+}
+
+  .btn{
+    background-color: blue;
+    color: white;
+  }
+
+  .btn:hover{
+    background-color: green;
+  }
+  .btn-green{
+    background-color: green;
+    color: white;
+  }
+  .btn-green:hover{
+    background-color: darkgreen;
+  }
+  .btn-red{
+    background-color: red;
+    color: white;
+  }
+  .btn-red:hover{
+    background-color:tomato;
+  }
+
+  
+  .circles{
+    height: 3em;
+    width: 3em;
+    border: 0.188em solid #000;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .active {
+      background-color:#ffa500;
+  }
+  
+  .circle-desc-active{
+  font-weight: bold;
+  }
+ 
+  .bar{
+    width: 16%;
+    height: 0.063em;
+    margin-bottom:0.469em;
+    border: 0.031em solid #000;
+    color:#000;
+    background-color:#000;
+    display: inline-block;
+    text-align:center;
+    margin:"0 auto";
+  }
+  
+  .container{
+    
+    min-width:320px;
+    margin: "10px auto";
+    text-align: center;
+    display: inline-block;
+    max-width: 80%;
+ 
+  }
+ 
+  
+  
+@media only screen and (max-width: 320px){
+    body {
+      font-size:20%
+   }
+  
+ } 
+ 
+ /*extra small devices*/
+ @media only screen and (max-width: 600px){
+    body {
+      font-size:40%
+   }
+  
+ } 
+ 
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+    body {
+      font-size:60%
+   }
+   
+ } 
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+   body {
+      font-size:80%
+ }
+
+ } 
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+   body {
+      font-size:100%
+   }
+ } 
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {
+    body {
+      font-size:120%
+   }
+ }

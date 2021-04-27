@@ -1,0 +1,334 @@
+<div *ngIf="!open" class="button">
+    <div  class="buttons" >
+    <button mat-raised-button color="primary" (click)="booknow()">Book Now</button>
+</div>
+<div class="buttons">
+    <button mat-raised-button color="primary" (click)="schedule()">Schedule Later</button>
+</div>
+</div>
+<mat-horizontal-stepper #stepper="matHorizontalStepper" labelPosition="bottom" *ngIf="open" [linear]="true">
+    <mat-step [stepControl]="f.control" label="User Information" [completed]='!!(f.errors) ' >
+        <form #f="ngForm"  name="form"
+        (ngSubmit)="f.form.valid ">
+            <mat-card class="booking-card">
+                <mat-card-header>
+                  <mat-card-title >Basic Information</mat-card-title>
+                </mat-card-header>
+               <mat-card-content>
+                  <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>person_outline</mat-icon> Name
+                            </mat-label>
+                        <input matInput placeholder="Name"    name="username"  [(ngModel)]="form.username" #username="ngModel" required minlength="3" maxlength="15">
+                        <div class="alert-danger" *ngIf="username.errors && username.touched">
+                            <div *ngIf="username.errors.required">Username is required</div>
+                            <div *ngIf="username.errors.minlength">
+                              Username must be at least 3 characters
+                            </div>
+                            <div *ngIf="username.errors.maxlength">
+                              Username must be at most 15 characters
+                            </div>
+                          </div>
+                    </mat-form-field>
+                   
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>
+                            <mat-icon>phone</mat-icon> Mobile Number
+                            </mat-label>
+                        <input matInput placeholder="Mobile"    name="number"  [(ngModel)]="form.number" #number="ngModel" required [pattern]="mobNumberPattern" >
+                        <div class="alert-danger" *ngIf="number.errors && number.touched">
+                            <div *ngIf="number.errors.required">Mobile Number is required</div>
+                            <div *ngIf="number.errors.pattern">
+                                Mobile Number must be a valid number
+                            </div>
+                            <div *ngIf="number.errors.maxlength">
+                              Mobile Number must be at most 10 characters
+                            </div>
+                          </div>
+                    </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>directions_car</mat-icon>Car Name
+                            </mat-label>
+                        <input matInput placeholder="Ex: Maruthi Alto White"    name="carname"  [(ngModel)]="form.carname" #carname="ngModel" required>
+                        <div class="alert-danger" *ngIf="carname.errors && carname.touched">
+                            <div *ngIf="carname.errors.required">Carname is required</div>
+                        </div>    
+                    </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>directions_car</mat-icon>Car Number
+                            </mat-label>
+                        <input matInput placeholder="Ex:Ap39GB0966"    name="carnumber"  [(ngModel)]="form.carnumber" #carnumber="ngModel" required>
+                        <div class="alert-danger" *ngIf="carnumber.errors && carnumber.touched">
+                            <div *ngIf="carnumber.errors.required">Carnumber is required</div>
+                          </div>
+                        </mat-form-field>
+                    </div>
+                 
+               <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>directions_car</mat-icon>Car Type
+                    </mat-label>
+                    <mat-select  
+                    [(ngModel)]="type"
+                    name="cartype"
+                    required
+                    #cartype="ngModel"
+                    >
+              <mat-option *ngFor="let tye of types" [value]="tye">{{tye}}</mat-option>
+            </mat-select>
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>edit_road</mat-icon> Area
+                    </mat-label>
+                    <mat-select  
+                    required
+                    [(ngModel)]="form.area" 
+                    name="area"
+                    #area="ngModel" 
+                    >
+              <mat-option *ngFor="let area of areas" [value]="area"  >{{area}}</mat-option>
+            </mat-select>                
+                   
+            </mat-form-field>
+           
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>place</mat-icon> Location
+                    </mat-label>
+                    <input matInput placeholder="pease click on get location"  [value]="location"  name="location"  [(ngModel)]="form.location" #location="ngModel" required disabled>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="getlocation()" required>Get Location</button>
+
+            </div>
+          </div>
+       </mat-card-content>
+       <mat-card-actions align="end"> 
+        <div *ngIf="!(f.errors)">
+            <button mat-button matStepperNext (click)="next1()">Next</button>
+          </div>
+       </mat-card-actions>
+            </mat-card>
+            
+        </form>
+        
+    </mat-step>
+    <mat-step label="Package Information" [stepControl]="f.control" label="Package Information" [completed]='!!(f.errors) '>
+
+        <form #f="ngForm"  name="form"
+                               >
+            <mat-card class="booking-card">
+                <mat-card-header>
+                  <mat-card-title >Basic Information</mat-card-title>
+                </mat-card-header>
+               <mat-card-content>
+                  <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>people</mat-icon>All Washers 
+                            </mat-label>
+                            <mat-select  
+                           
+                            [(ngModel)]="washer" 
+                            name="washername"
+                            #washernmae="ngModel" 
+                            required
+                            >
+                      <mat-option *ngFor="let wash of washers" [value]="wash">{{wash.name}}</mat-option>
+                      <mat-option *ngIf="washers.length==0">Currently All Washers Are Busy Please Try Again</mat-option>
+                    </mat-select>                
+                    
+
+                    </mat-form-field>
+                    </div>
+                    <div class="col" *ngIf="small">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>inventory_2</mat-icon>Package
+                            </mat-label>
+                            <mat-select  
+                            
+                            [(ngModel)]="washpackage" 
+                            name="package"
+                            #package="ngModel" 
+                            required
+                            >
+                      <mat-option *ngFor="let package of smallpackage" [value]='package'   >{{package.name}}:{{package.value}}</mat-option>
+                    </mat-select>                
+                    </mat-form-field>
+                    </div>
+                    <div class="col" *ngIf="medium">
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>inventory_2</mat-icon>Package
+                            </mat-label>
+                            <mat-select  
+                            
+                            [(ngModel)]="washpackage" 
+                            name="package"
+                            #package="ngModel" 
+                            required
+                            >
+                      <mat-option *ngFor="let package of mediumpackage" [value]='package'   >{{package.name}}:{{package.value}}</mat-option>
+                    </mat-select>                
+                    </mat-form-field>
+                    </div>
+                    <div class="col" *ngIf='large'>
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>inventory_2</mat-icon>Package
+                            </mat-label>
+                            <mat-select  
+                            
+                            [(ngModel)]="washpackage" 
+                            name="package"
+                            #package="ngModel" 
+                            required
+                            >
+                      <mat-option *ngFor="let package of largepackage" [value]='package'   >{{package.name}}:{{package.value}}</mat-option>
+                    </mat-select>                
+                    </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" >
+                        <mat-form-field class="full-width">
+                            <mat-label >
+                            <mat-icon>post_add</mat-icon>Addons
+                            </mat-label>
+                            <mat-select  
+                            
+                            [(ngModel)]="addonselected" 
+                            name="addon"
+                            #addon="ngModel" 
+                  
+                            >
+                      <mat-option *ngFor="let ad of addons" [value]='ad'>{{ad.addonname}}-RS:{{ad.price}}</mat-option>
+                    </mat-select>                
+                    </mat-form-field>
+                    </div>
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                        <input type="datetime-local" matInput   max="dateTime" min="todaydateTime"placeholder="Booking Date" name="bookingdate" #bookingdate="ngModel" required [(ngModel)]="form.scheduleddate" >
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                        <mat-label >
+                          <mat-icon>payment</mat-icon>Please Select Your Payment Mode
+                          </mat-label>
+                          <mat-select  
+                            
+                          [(ngModel)]="form.paymenttype" 
+                          name="paymenttype"
+                          #paymenttype="ngModel" 
+                           required
+                          >
+                          <mat-option value="Cash">Cash</mat-option>
+                        <mat-option value="Online">Online</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                    </div>
+                </div>
+               </mat-card-content>
+               <mat-card-actions align="end"> 
+                <div *ngIf="!(f.errors)">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext (click)="next2()">Next</button>
+                  </div>
+               </mat-card-actions>
+            </mat-card>
+        </form>
+
+    </mat-step >
+    <mat-step label="Checkout" >
+      <mat-card class="booking-card">
+        <mat-card-header>
+          <mat-card-title >Please Confirm The Data</mat-card-title>
+        </mat-card-header>
+       <mat-card-content>
+          <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>directions_car</mat-icon>Car Name
+                    </mat-label>
+                <input matInput  [value]="form.carname" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                  <mat-label >
+                  <mat-icon>directions_car</mat-icon>Car Number
+                  </mat-label>
+              <input matInput  [value]="form.carnumber" disabled>
+              </mat-form-field>
+          </div>   
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>inventory_2</mat-icon>Package
+                    </mat-label>
+                <input matInput  [value]="form.packages" disabled>
+                </mat-form-field>
+                
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                  <mat-label >
+                  <mat-icon>post_add</mat-icon>Addon
+                  </mat-label>
+              <input matInput  [value]="form.addon" disabled>
+              </mat-form-field>
+              
+          </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label >
+                    <mat-icon>sell</mat-icon>Total amount
+                    </mat-label>
+                <input matInput  [value]="form.amount" disabled>
+                </mat-form-field>
+            </div>
+            </div>
+       </mat-card-content>
+       <mat-card-actions align="end"> 
+        <div >
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext (click)="submitcash()" *ngIf='form.paymenttype=="Cash"'>Book</button>
+            <button mat-button matStepperNext (click)="submitonline()" *ngIf='form.paymenttype=="Online"'>Book</button>
+
+          </div>
+       </mat-card-actions>
+      </mat-card>
+
+    </mat-step>
+
+</mat-horizontal-stepper>
+

@@ -1,0 +1,30 @@
+<mat-card class="user-card">
+
+  <mat-card-content>
+    
+    <div class="grid-container">
+      <div class="item1">DASHBOARD</div>
+      <div class="item2">
+        <div fxLayout="column">
+  
+          <a routerLink="/home" mat-button>Home</a>
+  
+          <a  routerLink="/book" mat-button>Book a Wash</a>
+  
+          <a    routerLink="/usersmangement" mat-button><mat-icon>manage_search</mat-icon> Users Management</a>
+          <a  routerLink="/bookingmanagement" mat-button><mat-icon>manage_search</mat-icon>Bookings Management</a>
+          <a  routerLink="/reviewmanagement" mat-button><mat-icon>manage_search</mat-icon>Review Management</a>
+          <a   routerLink="/profile" mat-button><mat-icon>account_circle</mat-icon>MY Profile</a> 
+        </div>
+      </div>
+      <div class="item3">
+        <mat-icon class="hilight">savings</mat-icon>
+        <div>
+          Rs:{{amount}}
+        </div>
+      </div>  
+      <div class="item4"><mat-icon class="hilight">people</mat-icon><div>{{users}}</div></div>
+      <div class="item5"><mat-icon class="hilight">book</mat-icon><div>{{orders}}</div></div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,38 @@
+
+<div mat-dialog-content class="dialog">
+  <h2>Review Form</h2>
+  
+  
+    <label>Rating</label>
+    <div class="form-control" >
+     
+        <input type="radio" name="rating" value="1" [(ngModel)]="data.rating" required #rating="ngModel" >
+        1
+        <input type="radio" name="rating" value="2" [(ngModel)]="data.rating"  >
+        2
+        <input type="radio" name="rating" value="3" [(ngModel)]="data.rating"  >
+        3
+        <input type="radio" name="rating" value="4" [(ngModel)]="data.rating"  >
+        2
+        <input type="radio" name="rating" value="5" [(ngModel)]="data.rating"  >
+        5
+    
+    </div>
+   
+    <label for="review">Review</label>
+    <input
+      type="text"
+      class="form-control"
+      name="review"
+      [(ngModel)]="data.review"
+     
+      #review="ngModel"
+    />
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial >Ok</button>
+    </div>
+ 
+
+</div>
+
