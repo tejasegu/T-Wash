@@ -27,8 +27,8 @@ eureka:
 
 paytm.payment:
   sandbox:
-    merchantId: EMIklx84169388982012
-    merchantKey: EHx8BZuazlbM1yRR
+    merchantId: xxxxxxxxx
+    merchantKey: xxxxxxx
     channelId: WEB
     website: WEBSTAGING
     industryTypeId: Retail
