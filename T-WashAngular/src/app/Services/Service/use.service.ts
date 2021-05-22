@@ -60,7 +60,7 @@ export class UseService implements OnInit  {
 
   }
   addonlinebooking(form:any){
-    return this.http.post(API_URL+"/bookings/online",form);
+    return this.http.post("http://localhost:1112/booking/online",form, { responseType: 'text' } );
 
   }
 }

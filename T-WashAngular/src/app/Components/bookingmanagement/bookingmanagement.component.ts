@@ -15,7 +15,7 @@ export class BookingmanagementComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['id', 'scheduledlater', 'scheduleddate', 'userid','username','washerid','washername','orderstatus','amount', 'delete'];
   dataSource!: MatTableDataSource<Bookings>;
-
+err:any;
   search:any;
   form:any={
     bookedon:"",
@@ -85,7 +85,7 @@ export class BookingmanagementComponent implements AfterViewInit {
   }
 
   searchBooking(){
-       this.adminservice.getBookingById(this.search).subscribe(data=>{this.form=data},error=>{console.log(error) ;if(error.status==404){alert("Booking Not Found")}})
+       this.adminservice.getBookingById(this.search).subscribe(data=>{this.form=data},error=>{this.err=error.error ; console.log(error);if(error.status==404){alert("Booking Not Found")}})
   }
   deleteBooking(id:string){
     this.adminservice.deleteBookingByID(id).subscribe(data=>{alert(data); window.location.reload()},error=>{alert('Some thing went wrong please try again')})

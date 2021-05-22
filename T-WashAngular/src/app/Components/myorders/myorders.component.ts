@@ -107,12 +107,15 @@ retrivedimg:any;
   this.washerservice.setImg(id, this.selectedFile).subscribe(data=>{this.imgmessage=data, alert(data)}, error=>{console.log(error)})
   }
  showImage(id:string){
-   this.washerservice.getImg(id).subscribe(data=>{this.imgdata=data},error=>{console.log(error)})
-   this.retrivedimg = 'data:image/jpeg;base64,' + this.imgdata;
-  const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-    width: '250px',
+   this.washerservice.getImg(id).subscribe(data=>{this.imgdata=data; },error=>{console.log(error)})
+   setTimeout(()=>{this.retrivedimg = 'data:image/jpeg;base64,'+ this.imgdata;}, 1000) 
+   console.log(this.retrivedimg)
+   setTimeout(()=>{const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    
     data: {image:this.retrivedimg}
-  });
+  });}, 2000)
+   
+ 
 
  }
 navigate(location:any){

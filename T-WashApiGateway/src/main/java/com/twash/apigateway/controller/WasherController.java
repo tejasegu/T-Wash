@@ -32,7 +32,8 @@ public class WasherController {
 	@Autowired
 	RestTemplate restemplate;
 
-	//URLS
+	/********************************************URLS************************************************************************/
+	
 		String BOOKBYWASHER="http://t-washbookingservice/bookings/find/washer/";
 		String SetIMG="http://t-washbookingservice/images/";
 		String SETSTATUS="http://t-washbookingservice/bookings/update/";	
@@ -42,11 +43,11 @@ public class WasherController {
 		String SETIMG="http://t-washbookingservice/images/";
 		String GETIMG="http://t-washbookingservice/images/";
 
-		//
+    /************************************************************************************************************************/
 		
 		
 
-		//Get list of bookings by washerid
+		/*Get list of bookings by washerid*/
 		 
 		 @GetMapping("/bookings/find/washer/{id}") 
 		  public ResponseEntity<?> findBookingByUserId(@PathVariable(value="id")String washerid){
@@ -63,7 +64,7 @@ public class WasherController {
 			  
 		}
 		 
-		 //To Update OrderStatus By OrderId
+		 /*To Update OrderStatus By OrderId*/
 		  @PutMapping("/bookings/update/{id}/{status}")
 		  public ResponseEntity<?> updateStatusById(@PathVariable(value="id")long id, @PathVariable(value="status") String status){
 			 try {
@@ -79,7 +80,7 @@ public class WasherController {
 			  
 		  }
 		  
-		//Get list of Scheduled bookings by washerid
+		/*Get list of Scheduled bookings by washerid*/
 			 
 			 @GetMapping("/bookings/scheduled/washer/{id}") 
 			 
@@ -96,13 +97,9 @@ public class WasherController {
 					}
 					  
 				}
+			 		 
 			 
-            
-			 
-			 
-			 
-			 
-			 //Get list of washers by id
+			 /*Get list of washers by id*/
  			 
              @GetMapping("/area/{area}") 
 			 
@@ -120,7 +117,9 @@ public class WasherController {
 					  
 				}
              
-             @PutMapping("/set/{id}/{status}")
+             
+          /*Set Order Status*/   
+          @PutMapping("/set/{id}/{status}")
    		  public ResponseEntity<?> setAccStatus(@PathVariable(value="id")long id, @PathVariable(value="status") String status){
    			 try {
    				 Users user=new Users();
@@ -136,7 +135,7 @@ public class WasherController {
    		  }
              
              
-           //To Update OrderStatus By OrderId
+           /*To Upload Image*/
    		  @PostMapping("/images/{id}")
    		  public ResponseEntity<?> setImage(@PathVariable(value="id")long id, @RequestParam("image") MultipartFile image){
    			 try {
@@ -154,7 +153,7 @@ public class WasherController {
    		  }
    		  
    		  
-   		  
+   		  /*To Get Image*/
    		 @GetMapping("/images/{id}") 
 		 
 		 public ResponseEntity<?> getImage(@PathVariable(value="id")String id){
