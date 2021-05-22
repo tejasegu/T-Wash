@@ -147,27 +147,27 @@ public class UserDaoImplTest {
 	}
 	@Test
 	public void getWashersByArea() {
-		  Users user2= new Users(id, name,gender,password,email,number,town,area,"Washer",status);
-		    Users user3 = new Users(1, "t","m","password","email",122,"town","area","Washer","status");
+		  Users user2= new Users(id, name,gender,password,email,number,town,area,"ROLE_WASHER",status);
+		    Users user3 = new Users(1, "t","m","password","email",122,"town","area","ROLE_WASHER","status");
 		
 		 List<Users> allusers=new ArrayList<Users>();
 			allusers.add(user2);
 			allusers.add(user3);
 		
-		when(usersRepository.findByRole("Washer")).thenReturn(Optional.of(allusers));
+		when(usersRepository.findByRole("ROLE_WASHER")).thenReturn(Optional.of(allusers));
 		List<Users> used=daotest.getWashersbyArea(area);
 		assertThat(used).isNotEmpty();
 	}
 	@Test
 	public void donotGetWashersByArea() {
-		  Users user2= new Users(id, name,gender,password,email,number,town,area,"Washer",status);
+		  Users user2= new Users(id, name,gender,password,email,number,town,area,"ROLE_WASHER",status);
 		    Users user3 = new Users(1, "t","m","password","email",122,"town","area","Washer","status");
 		
 		 List<Users> allusers=new ArrayList<Users>();
 			allusers.add(user2);
 			allusers.add(user3);
 		
-		when(usersRepository.findByRole("Washer")).thenReturn(Optional.of(allusers));
+		when(usersRepository.findByRole("ROLE_WASHER")).thenReturn(Optional.of(allusers));
 		List<Users> used=daotest.getWashersbyArea("abc");
 		assertThat(used).isEmpty();
 	}

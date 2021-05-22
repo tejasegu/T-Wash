@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @OpenAPIDefinition(info=@Info(title="T-WashUsersService", version="1.0",description="UsersService"))
-//@EnableSwagger2
+@EnableSwagger2
 @EnableEurekaClient
 public class TWashUserServiceApplication {
 

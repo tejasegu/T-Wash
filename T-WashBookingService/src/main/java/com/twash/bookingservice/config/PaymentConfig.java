@@ -18,11 +18,14 @@ public class PaymentConfig {
     private String industryTypeId;
 
     private String paytmUrl;
+    
+    private String callbackUrl;
 
     private Map<String, String> details;
 
+	
 	public PaymentConfig(String merchantId, String merchantKey, String channelId, String website, String industryTypeId,
-			String paytmUrl, Map<String, String> details) {
+			String paytmUrl, String callbackUrl, Map<String, String> details) {
 		super();
 		this.merchantId = merchantId;
 		this.merchantKey = merchantKey;
@@ -30,6 +33,7 @@ public class PaymentConfig {
 		this.website = website;
 		this.industryTypeId = industryTypeId;
 		this.paytmUrl = paytmUrl;
+		this.callbackUrl = callbackUrl;
 		this.details = details;
 	}
 
@@ -93,5 +97,14 @@ public class PaymentConfig {
 	public void setDetails(Map<String, String> details) {
 		this.details = details;
 	}
+
+	public String getCallbackUrl() {
+		return callbackUrl;
+	}
+
+	public void setCallbackUrl(String callbackUrl) {
+		this.callbackUrl = callbackUrl;
+	}
     
+	
 }

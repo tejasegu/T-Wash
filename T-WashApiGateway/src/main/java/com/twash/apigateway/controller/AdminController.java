@@ -2,6 +2,7 @@ package com.twash.apigateway.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.twash.apigateway.model.Bookings;
 import com.twash.apigateway.model.Reviews;
 import com.twash.apigateway.model.Users;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@EnableHystrix
 
 @RequestMapping("/admin")
 public class AdminController {
@@ -31,8 +35,12 @@ public class AdminController {
 	    RestTemplate restTemplate = new RestTemplate();
 	    return restTemplate;
 	}
+	
+	
 
-	/*All Urls Acessed by the admin*/
+	/********************All Urls Acessed by the admin**********************************/
+	
+	
 	String GETUSER="http://t-washuserservice/users/find/";
 	String GETALLUSERS="http://t-washuserservice/users/get";
 	String DELUSER="http://t-washuserservice/users/delete/";
@@ -43,14 +51,22 @@ public class AdminController {
 	String ALLREVBYWASHER="http://t-washuserservice/reviews/";
 	String RATINGBYWASHER="http://t-washuserservice/rating/";
 	String INCOME="http://t-washbookingservice/bookings/income";
-
+	
+	
+   /*********************************************************************************************/
 	
 	
 	
 	
+	/*************************Admin Access Methods**********************************************/
 	
+	
+	/*Get User By Id*/
+	@HystrixCommand(fallbackMethod = "getUserFallback")
 	@GetMapping("/find/{id}")
+	
 	public ResponseEntity<?> getuser( @PathVariable("id") String id) {
+		
 	try {
 	  Users use=restemplate.getForObject(GETUSER+id, Users.class);
 		return ResponseEntity.ok(use) ;
@@ -60,7 +76,12 @@ public class AdminController {
 	}
 	}
 	
+	
+	
+	/*Get All Users*/
+	@HystrixCommand(fallbackMethod = "getallUserFallback")
 	@GetMapping("/get")
+	
 	public ResponseEntity<?> getAllUsers() {
 	try {
 	  Users[] use=restemplate.getForObject(GETALLUSERS, Users[].class);
@@ -72,6 +93,8 @@ public class AdminController {
 	}
 	
 	
+	/*Delete User*/
+	@HystrixCommand(fallbackMethod = "deleteUserFallback")
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteUser( @PathVariable("id") String id) {
 	try {
@@ -83,6 +106,10 @@ public class AdminController {
 	}
 	}
 	
+	
+	
+	/*Get All Bookings*/
+	@HystrixCommand(fallbackMethod = "allBookingsFallback")
 	@GetMapping("/bookings")
 	public ResponseEntity<?> getAllBookings() {
 	try {
@@ -94,18 +121,24 @@ public class AdminController {
 	}
 	}
 	
-
-	@GetMapping("/bookings/find/{id}")
-	public ResponseEntity<?> getBookingById(@PathVariable("id") String id) {
-	try {
-	  Bookings book=restemplate.getForObject(BOOKINGBYID+id, Bookings.class);
-		return ResponseEntity.ok(book) ;
-        }
-	catch(Exception e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	}
-	}
+      
 	
+	/*Get Booking By Id*/
+	  @HystrixCommand(fallbackMethod = "getBookingFallback")
+	  @GetMapping("/bookings/find/{id}")
+	  public ResponseEntity<?> getBookingById(@PathVariable("id") String id) { 
+	try { 
+		Bookings book=restemplate.getForObject(BOOKINGBYID+id, Bookings.class); return
+	  ResponseEntity.ok(book) ; 
+		}
+	  catch(Exception e)
+	  {
+		  return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); } }
+	  
+
+	  
+	/*Delete Booking*/
+	@HystrixCommand(fallbackMethod = "deleteBookingFallback")
 	@DeleteMapping("/bookings/delete/{id}")
 	public ResponseEntity<?> deleteBooking( @PathVariable("id") String id) {
 	try {
@@ -117,6 +150,9 @@ public class AdminController {
 	}
 	}
 	
+	
+	/*Get All Reviews*/
+	@HystrixCommand(fallbackMethod = "allReviewsFallback")
 	@GetMapping("/reviews")
 	public ResponseEntity<?> getAllReviews() {
 	try {
@@ -128,6 +164,10 @@ public class AdminController {
 	}
 	}
 	
+	
+	
+	/*Get Review By Id*/
+	@HystrixCommand(fallbackMethod = "reviewFallback")
 	@GetMapping("/reviews/{id}")
 	public ResponseEntity<?> getAllReviewsByWasherId(@PathVariable("id") String id) {
 	try {
@@ -139,7 +179,9 @@ public class AdminController {
 	}
 	}
 
-
+    
+	/*Get Rating By Id*/
+	@HystrixCommand(fallbackMethod = "ratingFallback")
 	@GetMapping("/rating/{id}")
 	public ResponseEntity<?> getRatingByWasherId(@PathVariable("id") String id) {
 	try {
@@ -152,6 +194,9 @@ public class AdminController {
 	}
 	
 	
+	
+	/*Get Total Income*/
+	@HystrixCommand(fallbackMethod = "incomeFallback")
 	@GetMapping("/income")
 	public ResponseEntity<?> getIncome() {
 	try {
@@ -162,4 +207,59 @@ public class AdminController {
 		return ResponseEntity.ok(e.getMessage());
 	}
 	}
+	
+	
+	/***********************************************************************************************************/
+	
+	/***********************************FallBack Methods********************************************************/
+	
+	
+	public ResponseEntity<?> getUserFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	public ResponseEntity<?> getallUserFallback(){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	public ResponseEntity<?> deleteUserFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	public ResponseEntity<?> allBookingsFallback(){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	public ResponseEntity<?> getBookingFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	public ResponseEntity<?> deleteBookingFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	public ResponseEntity<?> allReviewsFallback(){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	public ResponseEntity<?> reviewFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	public ResponseEntity<?> ratingFallback(String id){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	public ResponseEntity<?> incomeFallback(){
+		return new ResponseEntity<>("Something went wrong! Try again after some time ", HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	
+	/******************************************************************************************************************************/
 }

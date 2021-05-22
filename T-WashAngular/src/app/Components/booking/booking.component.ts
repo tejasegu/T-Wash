@@ -60,6 +60,7 @@ export class BookingComponent implements OnInit {
   addonvalue:number=0;
   todaydateTime= Date.now();
   dateTime=new Date();
+  uri: any;
 
   constructor(private washerservice:WasherService, private userservice:UseService, private datepipe:DatePipe, private tokenstorage:TokenStorageService, private router:Router) {
     this.form.userid=this. tokenstorage.getUser().id;
@@ -134,8 +135,9 @@ export class BookingComponent implements OnInit {
    this.userservice.addcashbooking(this.form).subscribe(data=>{alert(data); this.router.navigate(['home'])},error=>{alert("Something went wrong please try again"), console.log(error)})
  }
  submitonline(){
-   this.userservice.addonlinebooking(this.form).subscribe(data=>{alert(data);}, error=>{alert(error)})
+   this.userservice.addonlinebooking(this.form).subscribe(data=>{ this.uri=data; window.open(this.uri); this.router.navigate(['home'])}, error=>{alert("sorry")})
  }
+
   }
 
 

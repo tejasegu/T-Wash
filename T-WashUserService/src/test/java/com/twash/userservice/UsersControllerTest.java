@@ -3,18 +3,13 @@ package com.twash.userservice;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
-import org.bson.json.JsonParseException;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,18 +20,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.twash.userservice.controller.UserController;
 import com.twash.userservice.model.Users;
 import com.twash.userservice.service.PasswordEncoderService;
 import com.twash.userservice.service.SequenceGeneratorService;
 import com.twash.userservice.service.UsersDaoImpl;
 
-import io.swagger.v3.core.util.Json;
-import net.minidev.json.JSONUtil;
-import nonapi.io.github.classgraph.json.JSONUtils;
+
 
 
 @WebMvcTest(UserController.class)
